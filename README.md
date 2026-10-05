@@ -26,15 +26,15 @@ pnpm zip
 
 ## Releasing
 
-1. Bump `version` in `package.json` and commit.
-2. Tag and push:
+Commit your changes, then run:
 
-   ```sh
-   git tag v0.2.0
-   git push origin main --tags
-   ```
+```sh
+pnpm release
+```
 
-The Release workflow builds the zip, attaches it to a GitHub Release, and submits it to the Chrome Web Store when store credentials are configured.
+It bumps the patch version, commits, tags, and pushes. For bigger releases run `pnpm version minor` or `pnpm version major` instead.
+
+The pushed tag starts the Release workflow. It builds the zip, attaches it to a GitHub Release, and submits it to the Chrome Web Store when store credentials are configured.
 
 ### Chrome Web Store credentials
 
