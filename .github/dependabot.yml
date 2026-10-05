@@ -4,10 +4,12 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    labels: [dependencies]
     commit-message:
       prefix: chore
       include: scope
     ignore:
+      # vue-tsc does not support TypeScript 7 yet.
       - dependency-name: typescript
         update-types: ['version-update:semver-major']
     groups:
@@ -17,5 +19,9 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    labels: [github_actions]
     commit-message:
       prefix: ci
+    groups:
+      actions:
+        patterns: ['*']

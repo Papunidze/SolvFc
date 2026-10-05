@@ -1,7 +1,21 @@
 name: Bug report
-description: Something isn't working
-labels: [bug]
+description: The extension crashes, a button does nothing, or something looks broken
+title: "[Bug]: "
+labels: [bug, needs-triage]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. If the solver picked the wrong or an expensive squad, use the **Solver result** template instead.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched existing issues and this hasn't been reported yet.
+          required: true
+        - label: I'm on the latest version of SolvFC.
+          required: true
   - type: textarea
     id: what-happened
     attributes:
@@ -14,14 +28,16 @@ body:
     attributes:
       label: Steps to reproduce
       placeholder: |
-        1. Open the SBC ...
-        2. Click Solve ...
+        1. Open the SBC "..."
+        2. Click Solve
+        3. See error
     validations:
       required: true
   - type: input
     id: extension-version
     attributes:
       label: Extension version
+      description: Shown at the bottom of the popup, or in chrome://extensions
       placeholder: 0.1.0
     validations:
       required: true
@@ -29,10 +45,19 @@ body:
     id: browser
     attributes:
       label: Browser and version
-      placeholder: Chrome 140
+      placeholder: Chrome 140 / Edge 140 / Brave 1.80
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows, macOS, Linux, ChromeOS, Other]
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
       label: Console errors or screenshots
+      description: Open DevTools (F12) on the Web App, copy any red errors from the Console tab. Please hide personal info.
+      render: shell

@@ -1,0 +1,14 @@
+changelog:
+  exclude:
+    labels: [duplicate, invalid, wontfix]
+  categories:
+    - title: New features
+      labels: [enhancement]
+    - title: Solver improvements
+      labels: [solver, pricing]
+    - title: Bug fixes
+      labels: [bug, ea-update]
+    - title: Dependencies
+      labels: [dependencies, github_actions]
+    - title: Other changes
+      labels: ["*"]

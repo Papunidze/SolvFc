@@ -1,1 +1,8 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Papunidze/SolvFc/security/advisories/new
+    about: Please report security issues privately, not in public issues.
+  - name: Support the project
+    url: https://ko-fi.com/solvfc
+    about: If SolvFC saves you coins and time, consider buying a coffee.
