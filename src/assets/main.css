@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #0c0d11;
+  --color-ink-soft: #1b1d24;
+  --color-volt: #c8f135;
+  --color-volt-hover: #b6e01f;
+  --color-volt-deep: #4d7c0f;
+  --color-coin: #f5a524;
+  --color-mist: #f1f2f6;
+}
