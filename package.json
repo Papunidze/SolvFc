@@ -9,7 +9,9 @@
     "zip": "wxt zip",
     "postinstall": "wxt prepare",
     "test": "vitest run",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "release": "pnpm version patch -m \"chore: release %s\"",
+    "postversion": "git push --follow-tags"
   },
   "dependencies": {
     "highs": "^1.15.3",
