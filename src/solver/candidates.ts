@@ -66,20 +66,22 @@ export function alignWithGroups(lineup: Player[], groups: Player[][]) {
   })
 }
 
-export function limitChemistryPool(groups: Player[][], perCluster: number) {
-  const ranks = new Map<string, number>()
-  const isAmongCheapest = (key: string) => {
-    const rank = ranks.get(key) ?? 0
-    ranks.set(key, rank + 1)
-    return rank < perCluster
-  }
+export function withinBudget(groups: Player[][], budget: number, slotCount: number) {
+  const cheapestOthers = groups
+    .flat()
+    .map((player) => player.cost)
+    .sort((a, b) => a - b)
+    .slice(0, slotCount - 1)
+    .reduce((sum, cost) => sum + cost, 0)
+  return groups.map((group) => group.filter((player) => player.cost + cheapestOthers <= budget)).filter((group) => group.length > 0)
+}
+
+export function cheapestPool(groups: Player[][], size: number) {
   const kept = new Set(
     groups
       .flat()
       .sort((a, b) => a.cost - b.cost)
-      .filter((player) =>
-        [`l${player.leagueId}`, `n${player.nationId}`, `c${player.clubId}`, `r${player.rating}`].map(isAmongCheapest).some(Boolean),
-      ),
+      .slice(0, size),
   )
   return groups.map((group) => group.filter((player) => kept.has(player))).filter((group) => group.length > 0)
 }
