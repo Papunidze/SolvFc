@@ -1,11 +1,11 @@
 import type { Highs, Model } from 'highs'
-import { alignWithGroups, groupInterchangeable, limitChemistryPool, usesChemistry } from './candidates'
+import { alignWithGroups, cheapestPool, groupInterchangeable, usesChemistry, withinBudget } from './candidates'
 import { playerChemistry, squadRating, unmetRequirements } from './evaluate'
 import { allowsOutOfPosition, assignVar, buildModel, outOfPositionVar, playablePositions, useVar } from './model'
 import type { Challenge, Player, Solution } from './types'
 
-const POOL_SIZES = [2, 5]
-const STAGE_DEADLINES = [0.15, 0.45, 1]
+const CHEAPEST_POOL_SIZES = [300, 600]
+const STAGE_DEADLINES = [0.5, 0.75, 1]
 const MIN_STAGE_SECONDS = 0.5
 const OPTIMALITY_GAP = 1e-6
 
@@ -118,7 +118,7 @@ export function solveChallenge(highs: Highs, players: Player[], challenge: Chall
 
   const started = performance.now()
   const total = allGroups.flat().length
-  const limitedPools = POOL_SIZES.map((size) => limitChemistryPool(allGroups, size)).filter((pool) => pool.flat().length < total)
+  const limitedPools = CHEAPEST_POOL_SIZES.map((size) => cheapestPool(allGroups, size)).filter((pool) => pool.flat().length < total)
   const pools = [...limitedPools, allGroups]
   const deadlines = STAGE_DEADLINES.slice(-pools.length)
   let best: Solution | null = null
@@ -127,7 +127,8 @@ export function solveChallenge(highs: Highs, players: Player[], challenge: Chall
     const elapsed = (performance.now() - started) / 1000
     const timeLimitSeconds = Math.max(options.timeLimitSeconds * deadlines[stage] - elapsed, best ? 0 : MIN_STAGE_SECONDS)
     if (timeLimitSeconds < MIN_STAGE_SECONDS) break
-    const result = improve(highs, pool, challenge, timeLimitSeconds, best?.lineup ?? start)
+    const candidates = best ? withinBudget(pool, best.cost, challenge.slots.length) : pool
+    const result = improve(highs, candidates, challenge, timeLimitSeconds, best?.lineup ?? start)
     hasTimedOut ||= result.hasTimedOut
     if (result.solution && (!best || result.solution.cost <= best.cost)) best = { ...result.solution, isOptimal: result.solution.isOptimal && pool === allGroups }
   }
