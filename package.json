@@ -1,6 +1,6 @@
 {
   "name": "solvfc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Solves EA FC Ultimate Team Squad Building Challenges with the cheapest cards from your club.",
   "private": true,
   "type": "module",
